@@ -39,7 +39,7 @@ pip install pymem psutil pillow ttkbootstrap
 1. **Launch Hill Climb Racing** on your PC.
 2. **Run the script**:
    ```bash
-   python main.py
+   python hack.py
    ```
 3. Wait for the GUI window to appear.
 4. If the game is running, current **Coins** and **Gems** will be displayed automatically.
