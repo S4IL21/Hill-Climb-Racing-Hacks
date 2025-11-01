@@ -1,0 +1,4 @@
+ttkbootstrap
+pymem
+psutil
+Pillow
