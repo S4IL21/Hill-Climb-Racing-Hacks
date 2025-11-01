@@ -1,4 +1,6 @@
 import io
+import os
+import sys
 import urllib.request
 import webbrowser
 import traceback
@@ -14,11 +16,18 @@ import logging
 PROCESS_NAME = "HillClimbRacing.exe"
 ADDR_COINS = "HillClimbRacing.exe+28CAD4"
 ADDR_GEMS  = "HillClimbRacing.exe+28CAEC"
-ICON_URL = "https://store-images.microsoft.com/image/apps.44972.9007199266379485.197540b8-dbff-480d-9e47-9e4d2941360f.a00c225f-5a41-4e33-a1e2-9d825f38c8a9"
 MAX_INT_32 = 2147483647
-GITHUB_URL = "https://github.com/S4IL21/Hill-Climb-Racing-Hacks"
+GITHUB_URL = "https://github.com/vihaanvp/Hill-Climb-Racing-Hacks"
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
+
+def resource_path(relative_path: str) -> str:
+    """Get absolute path to resource, works for dev and PyInstaller onefile bundle."""
+    if getattr(sys, "frozen", False):
+        base_path = getattr(sys, "_MEIPASS", os.path.abspath("."))
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 def parse_module_plus_offset(pm, s):
     mod_name, off_str = s.split('+', 1)
@@ -29,14 +38,16 @@ def parse_module_plus_offset(pm, s):
         raise ValueError(f"Module '{mod_name}' not found.")
     return module.lpBaseOfDll + offset
 
-def fetch_icon_image(url):
+def fetch_logo_image(local_png="assets/logo.png"):
+    """Loads assets/logo.png as a Tkinter-compatible PhotoImage."""
     try:
-        with urllib.request.urlopen(url, timeout=8) as resp:
-            data = resp.read()
-        img = Image.open(io.BytesIO(data)).resize((64, 64), Image.ANTIALIAS)
-        return ImageTk.PhotoImage(img)
+        logo_path = resource_path(local_png)
+        if os.path.exists(logo_path):
+            img = Image.open(logo_path).convert("RGBA").resize((64, 64), Image.LANCZOS)
+            return ImageTk.PhotoImage(img)
     except Exception:
-        return None
+        logging.debug("Local PNG logo load failed", exc_info=True)
+    return None
 
 def is_process_running(name):
     for proc in psutil.process_iter(['name']):
@@ -128,11 +139,23 @@ def set_max(entry_widget):
 def open_github(event=None):
     webbrowser.open_new(GITHUB_URL)
 
-app = ttk.Window(title="S4IL's Hill Climb Racing Hack Menu", themename="cosmo", size=(650, 300), resizable=(False, False))
-icon_image = fetch_icon_image(ICON_URL)
-if icon_image: app.iconphoto(True, icon_image)
+# --- GUI ---
+app = ttk.Window(title="Hill Climb Racing Hack Menu", themename="cosmo", size=(650, 300), resizable=(False, False))
 
-ttk.Label(app, text="S4IL's Hill Climb Racing Hack Menu", font=("Segoe UI", 12, "bold")).pack(pady=(18, 10))
+# Use assets/logo.png for window/taskbar icon and a logo label inside the GUI.
+icon_image = fetch_logo_image("assets/logo.png")
+if icon_image:
+    app.iconphoto(True, icon_image)
+    app.icon_img = icon_image  # Prevent garbage collection
+
+    # Show logo in the GUI as well (optional)
+    logo_label = ttk.Label(app, image=icon_image)
+    logo_label.pack(pady=(10, 0))
+else:
+    logo_label = ttk.Label(app, text="[Logo not found]")
+    logo_label.pack(pady=(10, 0))
+
+ttk.Label(app, text="Hill Climb Racing Hack Menu", font=("Segoe UI", 12, "bold")).pack(pady=(8, 10))
 
 mid = ttk.Frame(app)
 mid.pack(pady=10)
@@ -140,6 +163,7 @@ mid.pack(pady=10)
 coin_frame = ttk.Frame(mid)
 coin_frame.grid(row=0, column=0, padx=20)
 ttk.Label(coin_frame, text="💰 Coin Amount:", font=("Segoe UI", 10)).pack(anchor="w")
+
 entry_coins = ttk.Entry(coin_frame, bootstyle=INFO, font=("Segoe UI", 11), width=18, justify="center")
 entry_coins.pack(side="left", pady=(4, 6), padx=(0, 4))
 ttk.Button(coin_frame, text="MAX", bootstyle=DANGER, command=lambda: set_max(entry_coins)).pack(side="left", ipadx=6)
@@ -153,7 +177,7 @@ ttk.Button(gem_frame, text="MAX", bootstyle=DANGER, command=lambda: set_max(entr
 
 ttk.Button(app, text="✨ Set Values ✨", bootstyle=(SUCCESS, OUTLINE), command=set_values).pack(pady=(10, 5), ipadx=18, ipady=4)
 
-footer = ttk.Label(app, text="Made with love by S4IL — feel free to contribute on our GitHub repo!↗", font=("Segoe UI", 8), foreground="#888", cursor="hand2")
+footer = ttk.Label(app, text="Made with love by S4IL (Packaged by VihaanVP) — feel free to contribute on our GitHub repo!↗", font=("Segoe UI", 8), foreground="#888", cursor="hand2")
 footer.pack(side="bottom", pady=6)
 footer.bind("<Button-1>", open_github)
 

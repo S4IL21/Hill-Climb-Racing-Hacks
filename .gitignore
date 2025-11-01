@@ -1,1 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Environments
 .venv/
+venv/
+env/
+ENV/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE/editor folders and files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Test/output files
+*.log
+
+# Ignore icons and assets generated during build outside assets/
+app.ico
+logo.ico
+logo-*.png
+*.icns
+
+# Ignore user-specific config
+*.env
+
+# Python egg files
+*.egg
+*.egg-info/
+.eggs/

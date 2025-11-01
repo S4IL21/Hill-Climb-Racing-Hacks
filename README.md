@@ -18,29 +18,22 @@ This tool attaches to the game process (`HillClimbRacing.exe`) and allows real-t
 
 ## 🖥️ Requirements
 
-Make sure you have the following installed:
+Windows PC/Laptop with Administrator Permissions running Hill Climb Racing
+> ⚠️ Note: Mac and Linux are NOT Supported!
 
-- Python 3.10 or higher  
-- `pymem`  
-- `psutil`  
-- `Pillow`  
-- `ttkbootstrap`
+---
 
-You can install them all using pip:
+## 📦 Download
 
-```bash
-pip install pymem psutil pillow ttkbootstrap
-```
+- **[⬇️ Download the latest release here](../../releases/latest)**
 
 ---
 
 ## 🚀 Usage
 
 1. **Launch Hill Climb Racing** on your PC.
-2. **Run the script**:
-   ```bash
-   python hack.py
-   ```
+2. **Run the EXE**:  
+   Double-click `main.exe` (or the EXE you downloaded/built).
 3. Wait for the GUI window to appear.
 4. If the game is running, current **Coins** and **Gems** will be displayed automatically.
 5. Enter new values and click **✨ Set Values ✨**.
@@ -78,12 +71,13 @@ The tool provides helpful log messages in the console:
 
 ---
 
-## 🧑‍💻 Author
+## 🧑‍💻 Credit
 
 Developed by **[S4IL](https://github.com/S4IL21)**  
+Packaged by **[VihaanVP](https://github.com/vihaanvp)**
 > “Made with ❤️ for fun and learning.”
 
-GitHub Repository:  
+Original GitHub Repository:  
 [https://github.com/S4IL21/Hill-Climb-Racing-Hacks](https://github.com/S4IL21/Hill-Climb-Racing-Hacks)
 
 ---
@@ -98,7 +92,7 @@ Use responsibly and at your own risk.
 
 ## 📸 Screenshot
 
-<img width="639" height="332" alt="image" src="https://github.com/user-attachments/assets/08fcfc85-85f8-4277-b9ff-2037f7b761bf" />
+<img width="639" height="332" alt="image" src="assets/screenshot.png" />
 
 ---
 
